@@ -15,16 +15,20 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="userInfo.staffPhoto" class="user-avatar" />
+          <img
+            v-imgError="defaultImg"
+            :src="userInfo.staffPhoto"
+            class="user-avatar"
+          />
           <span>{{ userInfo.username }}</span>
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
-            <el-dropdown-item> Home </el-dropdown-item>
+            <el-dropdown-item> 首页 </el-dropdown-item>
           </router-link>
           <el-dropdown-item divided @click.native="logout">
-            <span style="display: block">Log Out</span>
+            <span style="display: block"> 登出 </span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -38,6 +42,11 @@ import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 
 export default {
+  data() {
+    return {
+      defaultImg: 'https:pyy-1313117903.cos.ap-guangzhou.myqcloud.com/pig1.png'
+    }
+  },
   components: {
     Breadcrumb,
     Hamburger
