@@ -11,8 +11,8 @@ const timeOut = 2 * 60 * 60 * 1000
 const isTimeOut = () => Date.now() - getTokenTime() > timeOut
 
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API,
-  timeout: 5000
+  baseURL: process.env.VUE_APP_BASE_API
+  // timeout: 5000
 }) // 创建一个axios的实例
 
 // 请求拦截器
