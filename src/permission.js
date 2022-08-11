@@ -3,13 +3,15 @@ import store from '@/store'
 
 const writeList = ['/login', '/404']
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const token = store.state.user.token
 
   // 已登录
   if (token) {
     // 获取用户信息
-    if (!store.state.user.userInfo.userId) store.dispatch('user/getUserInfo')
+    if (!store.state.user.userInfo.userId) {
+      await store.dispatch('user/getUserInfo')
+    }
 
     return to.path === '/login' ? next('/') : next()
   }

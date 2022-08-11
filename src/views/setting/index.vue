@@ -50,7 +50,43 @@
           >
           </el-pagination>
         </el-tab-pane>
-        <el-tab-pane label="公司信息" name="second">公司信息</el-tab-pane>
+        <el-tab-pane label="公司信息" name="second">
+          <el-alert
+            title="对公司名称、公司地址、营业执照、公司地区的更新，将使得公司资料被重新审核，请谨慎修改"
+            type="info"
+            :closable="false"
+            show-icon
+          >
+          </el-alert>
+          <el-form ref="form" label-width="80px">
+            <el-form-item label="公司名称">
+              <el-input v-model="formData.name" disabled style="width: 400px" />
+            </el-form-item>
+            <el-form-item label="公司地址">
+              <el-input
+                v-model="formData.companyAddress"
+                disabled
+                style="width: 400px"
+              />
+            </el-form-item>
+            <el-form-item label="邮箱">
+              <el-input
+                v-model="formData.mailbox"
+                disabled
+                style="width: 400px"
+              />
+            </el-form-item>
+            <el-form-item label="备注">
+              <el-input
+                v-model="formData.remarks"
+                type="textarea"
+                :rows="3"
+                disabled
+                style="width: 400px"
+              />
+            </el-form-item>
+          </el-form>
+        </el-tab-pane>
       </el-tabs>
     </div>
 
@@ -84,6 +120,7 @@
 
 <script>
 import { addRoleApi, getRolesListApi } from '@/api/role'
+import { getCompanyInfoApi } from '@/api/company'
 export default {
   data() {
     return {
@@ -99,12 +136,14 @@ export default {
       },
       addFormRules: {
         name: [{ required: true, message: '请输入角色名称', trigger: 'blur' }]
-      }
+      },
+      formData: {}
     }
   },
 
   created() {
     this.getRolesList()
+    this.getCompanyInfo()
   },
 
   methods: {
@@ -139,6 +178,14 @@ export default {
       this.$refs.form.resetFields()
       this.addForm.region = ''
       this.addDialogVisible = false
+    },
+    // 获取公司信息
+    async getCompanyInfo() {
+      const res = await getCompanyInfoApi(
+        this.$store.state.user.userInfo.companyId
+      )
+
+      this.formData = res
     }
   }
 }
