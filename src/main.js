@@ -15,6 +15,7 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 import * as directives from '@/directives'
+import * as filters from '@/filters'
 import component from '@/components'
 
 if (process.env.NODE_ENV === 'production') {
@@ -34,6 +35,11 @@ Vue.config.productionTip = false
 // 自定义全局指令 循环注册
 for (let key in directives) {
   Vue.directive(key, directives[key])
+}
+
+// 过滤器
+for (let key in filters) {
+  Vue.filter(key, filters[key])
 }
 
 new Vue({

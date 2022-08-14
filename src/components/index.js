@@ -1,6 +1,7 @@
 import pageTools from './pageTools'
+import updateExecl from './update-execl'
 
-const components = [pageTools]
+const components = [pageTools, updateExecl]
 export default {
   install(Vue) {
     components.forEach((components) => {
