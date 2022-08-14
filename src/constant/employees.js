@@ -416,12 +416,22 @@ export default {
       value: '离职'
     }
   ],
-  // 路径映射表
+  // 导入路径映射表
   mapKeyPath: {
     入职日期: 'timeOfEntry',
     姓名: 'username',
     工号: 'workNumber',
     手机号: 'mobile',
     转正日期: 'correctionTime'
+  },
+  // 导出路径映射表
+  exportExcelMapPath: {
+    手机号: 'mobile',
+    姓名: 'username',
+    入职日期: 'timeOfEntry',
+    聘用形式: 'formOfEmployment',
+    转正日期: 'correctionTime',
+    工号: 'workNumber',
+    部门: 'departmentName'
   }
 }
