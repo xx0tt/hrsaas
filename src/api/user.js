@@ -23,3 +23,12 @@ export const getUserDetailApi = (id) => {
     url: '/sys/user/' + id
   })
 }
+
+// 保存员工基本信息
+export const UserDetailById = (data) => {
+  return request({
+    url: '/sys/user/' + data.id,
+    method: 'put',
+    data
+  })
+}
