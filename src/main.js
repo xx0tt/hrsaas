@@ -17,6 +17,9 @@ import '@/permission' // permission control
 import * as directives from '@/directives'
 import * as filters from '@/filters'
 import component from '@/components'
+import print from 'vue-print-nb'
+
+Vue.use(print)
 
 if (process.env.NODE_ENV === 'production') {
   const { mockXHR } = require('../mock')
