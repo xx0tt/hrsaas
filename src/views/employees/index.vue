@@ -74,10 +74,12 @@
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
-              <el-button type="text" size="small">角色</el-button>
-              <el-button type="text" size="small" @click="Onremove(row.id)"
-                >删除</el-button
-              >
+              <el-button type="text" size="small" @click="assignClick(row.id)">
+                角色
+              </el-button>
+              <el-button type="text" size="small" @click="Onremove(row.id)">
+                删除
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -108,12 +110,16 @@
     <el-dialog title="头像二维码" :visible.sync="ercodeVisible">
       <canvas id="canvas"></canvas>
     </el-dialog>
+
+    <!-- 分配角色弹出层 -->
+    <assignRole :assignId="assignId" :visible.sync="assignRoleIsShow" />
   </div>
 </template>
 
 <script>
 import { getemployInfoApi, delEmployeeApi } from '@/api/employees'
 import employees from '@/constant/employees'
+import assignRole from './components/assign-role.vue'
 import addEmployees from './components/add-employees.vue'
 const { exportExcelMapPath, hireType } = employees
 import QrCode from 'qrcode'
@@ -127,11 +133,13 @@ export default {
         size: 10
       },
       addEmployeesIsShow: false,
-      ercodeVisible: false
+      ercodeVisible: false,
+      assignRoleIsShow: false,
+      assignId: ''
     }
   },
 
-  components: { addEmployees },
+  components: { addEmployees, assignRole },
 
   created() {
     this.getemploy()
@@ -142,6 +150,11 @@ export default {
       const { rows, total } = await getemployInfoApi(this.pages)
       this.getemployList = rows
       this.total = total
+    },
+    // 点击角色
+    assignClick(id) {
+      this.assignId = id
+      this.assignRoleIsShow = true
     },
     currentChange(val) {
       this.pages.page = val

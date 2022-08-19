@@ -4,9 +4,9 @@
       <el-tabs v-model="activeName">
         <el-tab-pane label="角色管理" name="first">
           <!-- 顶部按钮 -->
-          <el-button type="primary" @click="addDialogVisible = true"
-            >新增角色</el-button
-          >
+          <el-button type="primary" @click="addDialogVisible = true">
+            新增角色
+          </el-button>
           <!-- 表单区域 -->
           <el-table border stripe :data="tableData" style="width: 100%">
             <el-table-column
@@ -14,25 +14,24 @@
               type="index"
               width="100px"
               label="序号"
-            >
-            </el-table-column>
+            />
             <el-table-column
               align="center"
               width="150px"
               prop="name"
               label="角色"
-            >
-            </el-table-column>
+            />
             <el-table-column
               align="center"
               :show-overflow-tooltip="true"
               prop="description"
               label="描述"
-            >
-            </el-table-column>
+            />
             <el-table-column align="center" prop="address" label="操作">
               <template>
-                <el-button size="small" type="success">分配权限</el-button>
+                <el-button size="small" type="success" @click="setRights">
+                  分配权限
+                </el-button>
                 <el-button size="small" type="primary">编辑</el-button>
                 <el-button size="small" type="danger">删除</el-button>
               </template>
@@ -47,8 +46,7 @@
             :page-sizes="[2, 5, 10]"
             @current-change="currentChange"
             @size-change="sizeShange"
-          >
-          </el-pagination>
+          />
         </el-tab-pane>
         <el-tab-pane label="公司信息" name="second">
           <el-alert
@@ -56,8 +54,7 @@
             type="info"
             :closable="false"
             show-icon
-          >
-          </el-alert>
+          />
           <el-form ref="form" label-width="80px">
             <el-form-item label="公司名称">
               <el-input v-model="formData.name" disabled style="width: 400px" />
@@ -115,12 +112,34 @@
         <el-button type="primary" @click="OnAddrule">确 定</el-button>
       </span>
     </el-dialog>
+
+    <!-- 分配权限弹出层 -->
+    <el-dialog
+      title="给角色分配权限"
+      :visible.sync="setRightsDialog"
+      width="30%"
+    >
+      <el-tree
+        :data="permissions"
+        :props="{ label: 'name' }"
+        node-key="id"
+        default-expand-all
+        show-checkbox
+        :default-checked-keys="defaultCheckedKeys"
+      ></el-tree>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="setRightsDialog = false">取 消</el-button>
+        <el-button type="primary">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { addRoleApi, getRolesListApi } from '@/api/role'
 import { getCompanyInfoApi } from '@/api/company'
+import { getPermissionList } from '@/api/permission'
+import { transListToTree } from '@/utils'
 export default {
   data() {
     return {
@@ -137,13 +156,17 @@ export default {
       addFormRules: {
         name: [{ required: true, message: '请输入角色名称', trigger: 'blur' }]
       },
-      formData: {}
+      formData: {},
+      setRightsDialog: false,
+      permissions: [],
+      defaultCheckedKeys: ['1063315016368918528', '1151424682926747648']
     }
   },
 
   created() {
     this.getRolesList()
     this.getCompanyInfo()
+    this.getPermissionList()
   },
 
   methods: {
@@ -154,6 +177,11 @@ export default {
       })
       this.tableData = rows
       this.total = total
+    },
+
+    // 点击分配权限
+    setRights() {
+      this.setRightsDialog = true
     },
     // 切换页脚
     currentChange(val) {
@@ -186,6 +214,12 @@ export default {
       )
 
       this.formData = res
+    },
+    // 获取权限列表
+    async getPermissionList() {
+      const res = await getPermissionList()
+      this.permissions = transListToTree(res, '0') // 转换成树形数据
+      console.log(this.permissions)
     }
   }
 }
