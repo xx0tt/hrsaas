@@ -8,12 +8,21 @@
             size="small"
             type="warning"
             @click="$router.push('/import')"
+            v-isHas="point.employeesPoint.import"
             >导入</el-button
           >
-          <el-button size="small" type="danger" @click="exportExcel"
+          <el-button
+            size="small"
+            type="danger"
+            @click="exportExcel"
+            v-isHas="point.employeesPoint.export"
             >导出</el-button
           >
-          <el-button size="small" type="primary" @click="addEmploy"
+          <el-button
+            size="small"
+            type="primary"
+            @click="addEmploy"
+            v-isHas="point.employeesPoint.add"
             >新增员工</el-button
           >
         </template>
@@ -74,10 +83,20 @@
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
-              <el-button type="text" size="small" @click="assignClick(row.id)">
+              <el-button
+                type="text"
+                size="small"
+                @click="assignClick(row.id)"
+                v-isHas="point.employeesPoint.edit"
+              >
                 角色
               </el-button>
-              <el-button type="text" size="small" @click="Onremove(row.id)">
+              <el-button
+                type="text"
+                size="small"
+                @click="Onremove(row.id)"
+                v-isHas="point.employeesPoint.del"
+              >
                 删除
               </el-button>
             </template>
@@ -122,8 +141,10 @@ import employees from '@/constant/employees'
 import assignRole from './components/assign-role.vue'
 import addEmployees from './components/add-employees.vue'
 const { exportExcelMapPath, hireType } = employees
+import mixinsPoint from '@/mixins/premission'
 import QrCode from 'qrcode'
 export default {
+  mixins: [mixinsPoint],
   data() {
     return {
       getemployList: [],

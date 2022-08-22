@@ -4,7 +4,11 @@
       <el-tabs v-model="activeName">
         <el-tab-pane label="角色管理" name="first">
           <!-- 顶部按钮 -->
-          <el-button type="primary" @click="addDialogVisible = true">
+          <el-button
+            type="primary"
+            @click="addDialogVisible = true"
+            v-isHas="point.rolesPoint.add"
+          >
             新增角色
           </el-button>
           <!-- 表单区域 -->
@@ -28,12 +32,28 @@
               label="描述"
             />
             <el-table-column align="center" prop="address" label="操作">
-              <template>
-                <el-button size="small" type="success" @click="setRights">
+              <template v-slot="{ row }">
+                <el-button
+                  size="small"
+                  type="success"
+                  @click="setRights(row.id)"
+                >
                   分配权限
                 </el-button>
-                <el-button size="small" type="primary">编辑</el-button>
-                <el-button size="small" type="danger">删除</el-button>
+                <el-button
+                  size="small"
+                  type="primary"
+                  v-isHas="point.rolesPoint.edit"
+                >
+                  编辑
+                </el-button>
+                <el-button
+                  size="small"
+                  type="danger"
+                  @click="removeRole(row.id)"
+                  v-isHas="point.rolesPoint.del"
+                  >删除</el-button
+                >
               </template>
             </el-table-column>
           </el-table>
@@ -118,6 +138,8 @@
       title="给角色分配权限"
       :visible.sync="setRightsDialog"
       width="30%"
+      @close="setRightOnClose"
+      destroy-on-close
     >
       <el-tree
         :data="permissions"
@@ -126,21 +148,30 @@
         default-expand-all
         show-checkbox
         :default-checked-keys="defaultCheckedKeys"
+        ref="perTree"
       ></el-tree>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="setRightsDialog = false">取 消</el-button>
-        <el-button type="primary">确 定</el-button>
+        <el-button @click="setRightOnClose">取 消</el-button>
+        <el-button type="primary" @click="onSaveRights">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { addRoleApi, getRolesListApi } from '@/api/role'
+import {
+  addRoleApi,
+  getRolesListApi,
+  getRolesInfo,
+  removeRoleApi,
+  assignPrem
+} from '@/api/role'
 import { getCompanyInfoApi } from '@/api/company'
 import { getPermissionList } from '@/api/permission'
 import { transListToTree } from '@/utils'
+import mixinsPoint from '@/mixins/premission'
 export default {
+  mixins: [mixinsPoint],
   data() {
     return {
       activeName: 'first',
@@ -159,7 +190,8 @@ export default {
       formData: {},
       setRightsDialog: false,
       permissions: [],
-      defaultCheckedKeys: ['1063315016368918528', '1151424682926747648']
+      defaultCheckedKeys: [],
+      roleId: ''
     }
   },
 
@@ -170,6 +202,7 @@ export default {
   },
 
   methods: {
+    // 获取角色列表
     async getRolesList() {
       const { rows, total } = await getRolesListApi({
         page: this.page,
@@ -178,10 +211,33 @@ export default {
       this.tableData = rows
       this.total = total
     },
+    // 保存权限分配
+    async onSaveRights() {
+      await assignPrem({
+        id: this.roleId,
+        permIds: this.$refs.perTree.getCheckedKeys()
+      })
+      this.$message.success('权限分配成功')
+      this.setRightOnClose()
+    },
 
     // 点击分配权限
-    setRights() {
+    async setRights(id) {
+      this.roleId = id
+      const { permIds } = await getRolesInfo(id)
+      this.defaultCheckedKeys = permIds
       this.setRightsDialog = true
+    },
+    // 关闭分配权限弹窗
+    setRightOnClose() {
+      this.setRightsDialog = false
+      this.defaultCheckedKeys = []
+    },
+    // 删除角色
+    async removeRole(id) {
+      await removeRoleApi(id)
+      this.getRolesList()
+      this.$message.success('删除角色成功')
     },
     // 切换页脚
     currentChange(val) {
@@ -219,7 +275,6 @@ export default {
     async getPermissionList() {
       const res = await getPermissionList()
       this.permissions = transListToTree(res, '0') // 转换成树形数据
-      console.log(this.permissions)
     }
   }
 }

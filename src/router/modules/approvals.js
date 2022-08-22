@@ -2,6 +2,7 @@ import Layout from '@/layout'
 export default {
   path: '/approvals',
   component: Layout,
+  meta: { id: 'approvals' }, // 路由鉴权
   children: [
     {
       path: '',

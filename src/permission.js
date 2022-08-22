@@ -10,7 +10,11 @@ router.beforeEach(async (to, from, next) => {
   if (token) {
     // 获取用户信息
     if (!store.state.user.userInfo.userId) {
-      await store.dispatch('user/getUserInfo')
+      // 获取用户信息 的返回值时promise
+      const { roles } = await store.dispatch('user/getUserInfo')
+      // 路由鉴权
+      await store.dispatch('permission/getRoutes', roles)
+      next(to.path)
     }
 
     return to.path === '/login' ? next('/') : next()

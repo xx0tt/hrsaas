@@ -19,6 +19,8 @@ import * as filters from '@/filters'
 import component from '@/components'
 import print from 'vue-print-nb'
 
+import 'default-passive-events'
+
 Vue.use(print)
 
 if (process.env.NODE_ENV === 'production') {

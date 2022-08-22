@@ -2,6 +2,7 @@ import Layout from '@/layout'
 export default {
   path: '/employees',
   component: Layout,
+  meta: { id: 'employees' }, // 路由鉴权
   children: [
     {
       path: '',
@@ -11,6 +12,7 @@ export default {
     {
       hidden: true,
       path: 'detail/:id',
+      props: true, // 路由开启prop，组件也能通过props接受
       component: () => import('@/views/employees/detail')
     },
     {

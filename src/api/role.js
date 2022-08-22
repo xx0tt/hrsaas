@@ -16,3 +16,27 @@ export const addRoleApi = (data) => {
     data
   })
 }
+
+// 删除角色
+export const removeRoleApi = (id) => {
+  return request({
+    url: '/sys/role/' + id,
+    method: 'DELETE'
+  })
+}
+
+// 获取角色详情
+export const getRolesInfo = (id) => {
+  return request({
+    url: '/sys/role/' + id
+  })
+}
+
+// 给角色分配权限
+export const assignPrem = (data) => {
+  return request({
+    url: '/sys/role/assignPrem',
+    method: 'PUT',
+    data
+  })
+}

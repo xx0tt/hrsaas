@@ -1,3 +1,4 @@
+import store from '@/store'
 // 自定义指令
 export const imgError = {
   // 插入dom时
@@ -15,5 +16,15 @@ export const imgError = {
     if (!dom.src) {
       dom.src = value
     }
+  }
+}
+
+export const isHas = {
+  // bind : 绑定时
+  // inserted ：插入节点时
+  // update： 更新时
+  inserted(el, { value }) {
+    const has = store.state.permission.points.includes(value)
+    if (!has) el.remove() // 删除自身节点
   }
 }
