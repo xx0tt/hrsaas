@@ -6,29 +6,29 @@
       @toggleClick="toggleSideBar"
     />
 
+    <!-- <breadcrumb class="breadcrumb-container" /> -->
     <div class="app-breadcrumb">
-      {{ userInfo.companyName }}
+      {{ $store.state.user.userInfo.companyName }}
       <span class="breadBtn">体验版</span>
     </div>
-    <!-- <breadcrumb class="breadcrumb-container" /> -->
 
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img
-            v-imgError="defaultImg"
-            :src="userInfo.staffPhoto"
+            :src="$store.getters.avatar"
             class="user-avatar"
+            v-imgError="defaultImg"
           />
-          <span>{{ userInfo.username }}</span>
+          <span>{{ $store.state.user.userInfo.username }}</span>
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
-            <el-dropdown-item> 首页 </el-dropdown-item>
+            <el-dropdown-item> Home </el-dropdown-item>
           </router-link>
           <el-dropdown-item divided @click.native="logout">
-            <span style="display: block"> 登出 </span>
+            <span style="display: block">Log Out</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -37,14 +37,16 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import defaultImg from '@/assets/common/head.jpg'
 
 export default {
+  // 如果想在data中定义本地图片路径,需要先引入
   data() {
     return {
-      defaultImg: 'https:pyy-1313117903.cos.ap-guangzhou.myqcloud.com/pig1.png'
+      defaultImg
     }
   },
   components: {
@@ -52,8 +54,7 @@ export default {
     Hamburger
   },
   computed: {
-    ...mapGetters(['sidebar', 'avatar']),
-    ...mapState('user', ['userInfo'])
+    ...mapGetters(['sidebar', 'avatar'])
   },
   methods: {
     toggleSideBar() {
@@ -103,6 +104,7 @@ export default {
     -webkit-tap-highlight-color: transparent;
     color: #fff;
     fill: currentColor;
+
     &:hover {
       background: rgba(0, 0, 0, 0.025);
     }
@@ -149,12 +151,15 @@ export default {
         color: #fff;
         cursor: pointer;
 
+        span {
+          margin: 0 3px;
+        }
+
         .user-avatar {
           cursor: pointer;
           width: 40px;
           height: 40px;
           border-radius: 10px;
-          margin-right: 5px;
         }
 
         .el-icon-caret-bottom {

@@ -34,8 +34,8 @@ export default {
   computed: {
     ...mapGetters(['sidebar']),
     routes() {
-      // $router.opthion 拿不到后添加进去的动态路由
-      // return this.$router.options.routes
+      // 可以获取到所有路由规则(动态添加的)
+      //  我们自己去维护一个路由规则(所有路由)
       return this.$store.state.permission.routes
     },
     activeMenu() {
@@ -55,7 +55,7 @@ export default {
     },
     isCollapse() {
       return !this.sidebar.opened
-    }
-  }
+    },
+  },
 }
 </script>

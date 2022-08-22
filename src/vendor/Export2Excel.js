@@ -36,12 +36,12 @@ function generateArray(table) {
         ranges.push({
           s: {
             r: R,
-            c: outRow.length
+            c: outRow.length,
           },
           e: {
             r: R + rowspan - 1,
-            c: outRow.length + colspan - 1
-          }
+            c: outRow.length + colspan - 1,
+          },
         })
       }
 
@@ -67,12 +67,12 @@ function sheet_from_array_of_arrays(data, opts) {
   var range = {
     s: {
       c: 10000000,
-      r: 10000000
+      r: 10000000,
     },
     e: {
       c: 0,
-      r: 0
-    }
+      r: 0,
+    },
   }
   for (var R = 0; R != data.length; ++R) {
     for (var C = 0; C != data[R].length; ++C) {
@@ -81,12 +81,12 @@ function sheet_from_array_of_arrays(data, opts) {
       if (range.e.r < R) range.e.r = R
       if (range.e.c < C) range.e.c = C
       var cell = {
-        v: data[R][C]
+        v: data[R][C],
       }
       if (cell.v == null) continue
       var cell_ref = XLSX.utils.encode_cell({
         c: C,
-        r: R
+        r: R,
       })
 
       if (typeof cell.v === 'number') cell.t = 'n'
@@ -140,12 +140,12 @@ export function export_table_to_excel(id) {
   var wbout = XLSX.write(wb, {
     bookType: 'xlsx',
     bookSST: false,
-    type: 'binary'
+    type: 'binary',
   })
 
   saveAs(
     new Blob([s2ab(wbout)], {
-      type: 'application/octet-stream'
+      type: 'application/octet-stream',
     }),
     'test.xlsx'
   )
@@ -158,7 +158,7 @@ export function export_json_to_excel({
   filename,
   merges = [],
   autoWidth = true,
-  bookType = 'xlsx'
+  bookType = 'xlsx',
 } = {}) {
   /* original data */
   filename = filename || 'excel-list'
@@ -187,16 +187,16 @@ export function export_json_to_excel({
         /*先判断是否为null/undefined*/
         if (val == null) {
           return {
-            wch: 10
+            wch: 10,
           }
         } else if (val.toString().charCodeAt(0) > 255) {
           /*再判断是否为中文*/
           return {
-            wch: val.toString().length * 2
+            wch: val.toString().length * 2,
           }
         } else {
           return {
-            wch: val.toString().length
+            wch: val.toString().length,
           }
         }
       })
@@ -220,11 +220,11 @@ export function export_json_to_excel({
   var wbout = XLSX.write(wb, {
     bookType: bookType,
     bookSST: false,
-    type: 'binary'
+    type: 'binary',
   })
   saveAs(
     new Blob([s2ab(wbout)], {
-      type: 'application/octet-stream'
+      type: 'application/octet-stream',
     }),
     `${filename}.${bookType}`
   )

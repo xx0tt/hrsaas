@@ -3,82 +3,82 @@
     <div class="app-container">
       <el-card v-loading="loading" class="box-card">
         <!-- 头部 -->
-        <tree-tools
-          isRoot
-          :treeNode="{ name: '传智教育', manager: '负责人' }"
-          @addDept="addDept"
-        />
+        <tree-tools @add="showAddDept" :isRoot="true" :treeNode="company" />
         <!-- 树形 -->
-        <el-tree :data="TreeData" :props="defaultProps" default-expand-all>
-          <template v-slot="scoped">
+        <el-tree :data="treeData" :props="defaultProps" default-expand-all>
+          <!-- 这是作用域插槽 -->
+          <!-- v-slot 获取组件内部slot提供的数据 -->
+          <template v-slot="{ data }">
             <tree-tools
-              @removeDept="getDepts"
-              :treeNode="scoped.data"
-              @addDept="addDept"
-              @exit="exitFn"
+              @add="showAddDept"
+              @remove="loadDepts"
+              @edit="showEdit"
+              :treeNode="data"
             />
           </template>
         </el-tree>
       </el-card>
     </div>
 
-    <!-- 添加部门弹出层 -->
-    <addDept
+    <!-- 添加部门弹层 -->
+    <add-dept
       ref="addDept"
-      :dialogVisible.sync="dialogVisible"
+      @add-success="loadDepts"
+      :visible.sync="dialogVisible"
       :currentNode="currentNode"
-      :deptsList="deptsList"
     />
   </div>
 </template>
 
 <script>
-import treeTools from './components/tree-tools.vue'
-import { getDeptsApi } from '@/api/department'
+import TreeTools from './components/tree-tools.vue'
+import { getDeptsApi } from '@/api/departments'
 import { transListToTree } from '@/utils'
-import addDept from './components/add-Dept.vue'
+import AddDept from './components/add-dept'
 export default {
   data() {
     return {
-      TreeData: [],
-      defaultProps: { label: 'name' },
+      treeData: [
+        { name: '总裁办', children: [{ name: '董事会' }] },
+        { name: '行政部' },
+        { name: '人事部' },
+      ],
+      defaultProps: {
+        label: 'name', // 将data中哪个数据名显示到树形页面中
+        // children: 'child', // 树形默认查找子节点通过childten
+      },
+      company: { name: '传智教育', manager: '负责人' },
       dialogVisible: false,
       currentNode: {},
-      deptsList: [],
-      loading: false
+      loading: false,
     }
   },
-  components: { treeTools, addDept },
-  created() {
-    this.getDepts()
+
+  components: {
+    TreeTools,
+    AddDept,
   },
+
+  created() {
+    this.loadDepts()
+  },
+
   methods: {
-    // 获取组织架构
-    async getDepts() {
+    async loadDepts() {
       this.loading = true
-      const data = await getDeptsApi()
-
-      // 将平铺数据转换成树型数据
-      this.TreeData = transListToTree(data.depts, '')
-
-      // 存一份到deptsList 给子组件备用
-      this.deptsList = data.depts
-
+      const res = await getDeptsApi()
+      this.treeData = transListToTree(res.depts, '')
       this.loading = false
     },
-
-    // 添加子部门
-    addDept(currentNode) {
-      this.currentNode = currentNode
+    showAddDept(val) {
       this.dialogVisible = true
+      this.currentNode = val
     },
-
-    // 编辑部门
-    exitFn(id) {
-      this.$refs.addDept.getDeptbyId(id)
+    showEdit(val) {
       this.dialogVisible = true
-    }
-  }
+      this.$refs.addDept.getDeptById(val.id)
+    },
+  },
 }
 </script>
 

@@ -1,30 +1,38 @@
 import store from '@/store'
-// 自定义指令
+// 定义自定义指令
 export const imgError = {
-  // 插入dom时
-  inserted(dom, { value }) {
-    if (!dom.src) {
-      dom.src = value
+  // 当被绑定的元素插入到 DOM 中时……
+  // 令绑定的元素插入到dom的时候 ,图片数据还没请求回来
+  inserted(el, { value }) {
+    // 监听dom img 图片加载失败的事件
+    if (!el.src) {
+      el.src = value
+    } else {
+      el.onerror = function () {
+        el.src = value
+      }
     }
-    dom.addEventListener('error', function () {
-      dom.src = value
-    })
   },
-
-  // 更新dom时
-  update(dom, { value }) {
-    if (!dom.src) {
-      dom.src = value
+  update(el, { value }) {
+    // 监听dom img 图片加载失败的事件
+    if (!el.src) {
+      el.src = value
+    } else {
+      el.onerror = function () {
+        el.src = value
+      }
     }
-  }
+  },
 }
 
 export const isHas = {
-  // bind : 绑定时
-  // inserted ：插入节点时
-  // update： 更新时
-  inserted(el, { value }) {
-    const has = store.state.permission.points.includes(value)
-    if (!has) el.remove() // 删除自身节点
-  }
+  // bind: 指令和dom绑定
+  // inserted: 指令所绑定的元素插入到父节点
+  // update: 指令所绑定的Vnode
+  inserted(el, binding) {
+    const has = store.state.permission.points.includes(binding.value)
+    if (!has) {
+      el.remove()
+    }
+  },
 }

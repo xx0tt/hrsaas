@@ -1,14 +1,11 @@
 export default {
-  employeesPoint: {
+  employees: {
     add: 'employees-add',
-    edit: 'employees-edit',
     import: 'employees-import',
-    export: 'employees-export',
-    del: 'employees-del'
+    del: 'employees-del',
   },
-  rolesPoint: {
+  roles: {
     add: 'roles-add',
     edit: 'roles-edit',
-    del: 'roles-del'
-  }
+  },
 }

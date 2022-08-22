@@ -1,11 +1,5 @@
 <template>
-  <el-dialog
-    @close="Onclose"
-    title="新增员工"
-    :visible="addEmployeesIsShow"
-    width="50%"
-  >
-    <!-- 表单 -->
+  <el-dialog @close="onClose" title="新增员工" :visible="visible" width="50%">
     <el-form ref="form" :model="formData" :rules="rules" label-width="120px">
       <el-form-item label="姓名" prop="username">
         <el-input
@@ -51,17 +45,22 @@
         />
       </el-form-item>
       <el-form-item label="部门" prop="departmentName">
+        <!-- <el-input
+          v-model="formData.departmentName"
+          style="width: 50%"
+          placeholder="请选择部门"
+        /> -->
         <el-select
           @focus="getDepts"
           v-model="formData.departmentName"
-          placeholder="请选择"
-          ref="treeSelect"
+          placeholder="请选择部门"
+          ref="deptSelect"
         >
-          <el-option class="treeOption" v-loading="treeloading" value="">
+          <el-option class="treeOption" v-loading="isTreeLoading" value="">
             <el-tree
               @node-click="treeNodeClick"
               :data="depts"
-              :props="treeprop"
+              :props="treeProps"
             ></el-tree>
           </el-option>
         </el-select>
@@ -75,22 +74,21 @@
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="Onclose">取 消</el-button>
-      <el-button type="primary" @click="OnSave">确 定</el-button>
+      <el-button @click="onClose">取 消</el-button>
+      <el-button @click="onSave" type="primary">确 定</el-button>
     </span>
   </el-dialog>
 </template>
 
 <script>
 import employees from '@/constant/employees'
-import { getDeptsApi } from '@/api/department'
+import { getDeptsApi } from '@/api/departments'
 import { transListToTree } from '@/utils'
 import { addEmployee } from '@/api/employees'
 const { hireType } = employees
 export default {
   data() {
     return {
-      hireType,
       formData: {
         username: '',
         mobile: '',
@@ -98,7 +96,7 @@ export default {
         workNumber: '',
         departmentName: '',
         timeOfEntry: '',
-        correctionTime: ''
+        correctionTime: '',
       },
       rules: {
         username: [
@@ -106,132 +104,82 @@ export default {
           {
             min: 1,
             max: 4,
-            message: '用户姓名为1-4位'
-          }
+            message: '用户姓名为1-4位',
+          },
         ],
         mobile: [
           { required: true, message: '手机号不能为空', trigger: 'blur' },
           {
             pattern: /^1[3-9]\d{9}$/,
             message: '手机号格式不正确',
-            trigger: 'blur'
-          }
+            trigger: 'blur',
+          },
         ],
         formOfEmployment: [
-          { required: true, message: '聘用形式不能为空', trigger: 'change' }
+          { required: true, message: '聘用形式不能为空', trigger: 'change' },
         ],
         workNumber: [
-          { required: true, message: '工号不能为空', trigger: 'blur' }
+          { required: true, message: '工号不能为空', trigger: 'blur' },
         ],
         departmentName: [
-          { required: true, message: '部门不能为空', trigger: 'change' }
+          { required: true, message: '部门不能为空', trigger: 'blur' },
         ],
-        timeOfEntry: [{ required: true, message: '入职时间', trigger: 'blur' }]
+        timeOfEntry: [
+          { required: true, message: '入职时间', trigger: 'change' },
+        ],
       },
-      depts: [
-        {
-          label: '一级 1',
-          children: [
-            {
-              label: '二级 1-1',
-              children: [
-                {
-                  label: '三级 1-1-1'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          label: '一级 2',
-          children: [
-            {
-              label: '二级 2-1',
-              children: [
-                {
-                  label: '三级 2-1-1'
-                }
-              ]
-            },
-            {
-              label: '二级 2-2',
-              children: [
-                {
-                  label: '三级 2-2-1'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          label: '一级 3',
-          children: [
-            {
-              label: '二级 3-1',
-              children: [
-                {
-                  label: '三级 3-1-1'
-                }
-              ]
-            },
-            {
-              label: '二级 3-2',
-              children: [
-                {
-                  label: '三级 3-2-1'
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      treeprop: {
-        label: 'name'
+      hireType,
+      depts: [],
+      treeProps: {
+        label: 'name',
       },
-      treeloading: false
+      isTreeLoading: false,
     }
   },
+
   props: {
-    addEmployeesIsShow: {
+    visible: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
+
+  created() {},
+
   methods: {
-    Onclose() {
+    onClose() {
+      this.$emit('update:visible', false)
       this.$refs.form.resetFields()
-      this.$emit('update:addEmployeesIsShow', false)
     },
     async getDepts() {
-      this.treeloading = true
+      this.isTreeLoading = true
       const { depts } = await getDeptsApi()
-      this.depts = transListToTree(depts, '')
-      this.treeloading = false
+      transListToTree(depts, '')
+      this.depts = depts
+      this.isTreeLoading = false
     },
     treeNodeClick(row) {
+      // console.log(row)
       this.formData.departmentName = row.name
-      this.$refs.treeSelect.blur()
+      this.$refs.deptSelect.blur()
     },
-    OnSave() {
+    onSave() {
       this.$refs.form.validate(async (valid) => {
         if (!valid) return
         await addEmployee(this.formData)
         this.$message.success('添加成功')
-        this.Onclose()
-        this.$emit('addSuccess')
+        this.onClose()
+        this.$emit('add-success')
       })
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style scoped lang="scss">
 .el-select-dropdown__item.hover,
-.el-select-dropdown__item:hover {
+.el-select-dropdown__item:hover .el-select-dropdown__item {
   background-color: #fff;
-}
-
-.el-select-dropdown__item {
   overflow: unset;
 }
 

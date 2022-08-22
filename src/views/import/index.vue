@@ -1,16 +1,16 @@
 <template>
   <div class="dashboard-container">
     <div class="app-container">
-      <updateExecl :beforeUpload="beforeUpload" :onSuccess="onSuccess" />
+      <upload-excel :beforeUpload="excelSuccess" :onSuccess="onSuccess" />
     </div>
   </div>
 </template>
 
 <script>
 import employees from '@/constant/employees'
-const { mapKeyPath } = employees
-import { importEMployessApi } from '@/api/employees'
+import { importEmployees } from '@/api/employees'
 import { formatTime } from '@/filters'
+const { importMapKeyPath } = employees
 export default {
   data() {
     return {}
@@ -19,33 +19,37 @@ export default {
   created() {},
 
   methods: {
-    // 上传之前的回调
-    beforeUpload({ name }) {
-      if (!name.endsWith('.xlsx')) return false
+    // 上传前的处理
+    excelSuccess({ name }) {
+      if (!name.endsWith('.xlsx')) {
+        this.$message.error('请选择xlsx文件')
+        return false
+      }
       return true
     },
-    // 上传成功的回调
-    async onSuccess({ results }) {
+    // 上传成功
+    async onSuccess({ header, results }) {
       const newArr = results.map((item) => {
         const obj = {}
-        for (let key in mapKeyPath) {
+        for (let key in importMapKeyPath) {
           if (key === '入职日期' || key === '转正日期') {
-            // excel 时间戳转换成 js时间
-            const ExcTime = item[key]
-            const date = new Date((ExcTime - 1) * 24 * 60 * 60 * 1000)
+            // excel 时间戳
+            const timestamp = item[key]
+            // 转换
+            const date = new Date((timestamp - 1) * 24 * 3600000)
             date.setFullYear(date.getFullYear() - 70)
-            obj[mapKeyPath[key]] = formatTime(date)
+            obj[importMapKeyPath[key]] = formatTime(date)
           } else {
-            obj[mapKeyPath[key]] = item[key]
+            obj[importMapKeyPath[key]] = item[key]
           }
         }
         return obj
       })
-      await importEMployessApi(newArr)
-      this.$message.success('上传成功')
-      this.$router.back()
-    }
-  }
+      await importEmployees(newArr)
+      this.$message.success('导入成功')
+      this.$router.go(-1)
+    },
+  },
 }
 </script>
 

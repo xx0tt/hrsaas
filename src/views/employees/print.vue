@@ -1,5 +1,6 @@
 <template>
   <div class="dashboard-container" id="myPrint">
+    <!-- v-print的值应该是一个字符串(选择器), 对应的就会将该选择器中的内容进行打印 -->
     <el-button v-print="'#myPrint'">打印</el-button>
     <div class="app-container">
       <el-card>
@@ -10,7 +11,7 @@
           </el-breadcrumb-item>
           <el-breadcrumb-item>打印</el-breadcrumb-item>
         </el-breadcrumb>
-        <!-- 用户详情 -->
+        <!-- 用户-详情 -->
         <div v-if="type === 'personal'">
           <h2 class="centInfo">员工信息表</h2>
           <table cellspacing="0" width="100%" class="tableList">
@@ -224,7 +225,7 @@
           </table>
           <div class="foot">签字：___________日期:___________</div>
         </div>
-        <!-- 岗位详情 -->
+        <!-- 岗位-详情 -->
         <div v-else>
           <h2 class="centInfo">岗位信息表</h2>
           <table cellspacing="0" width="100%" class="tableList">
@@ -344,13 +345,13 @@
 
 <script>
 import { getPersonalDetail } from '@/api/employees'
-import { getUserDetailApi } from '@/api/user'
+import { getUserDetail } from '@/api/user'
 export default {
   data() {
     return {
       formData: {},
       userId: this.$route.params.id,
-      type: this.$route.query.type // 打印类型
+      type: this.$route.query.type, // 打印类型
     }
   },
   // 创建完毕状态
@@ -363,11 +364,11 @@ export default {
       this.formData = await getPersonalDetail(this.userId) // 获取个人基本信息
     },
     async getJobDetail() {
-      const userInfo = await getUserDetailApi(this.userId)
+      const userInfo = await getUserDetail(this.userId)
       const jobInfo = await getJobDetail(this.userId) // 获取个人基本信息
       this.formData = { ...userInfo, ...jobInfo }
-    }
-  }
+    },
+  },
 }
 </script>
 

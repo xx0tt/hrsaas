@@ -1,13 +1,58 @@
 import Layout from '@/layout'
-export default {
+
+const salaryRouter = {
   path: '/salarys',
   component: Layout,
-  meta: { id: 'salarys' }, // 路由鉴权
+  name: 'salarys',
+  meta: {
+    id: 'salarys', // 用来和后端权限做约定的
+  },
   children: [
     {
       path: '',
       component: () => import('@/views/salarys'),
-      meta: { title: '工资', icon: 'money' }
-    }
-  ]
+      name: 'salarys',
+      meta: {
+        title: '工资',
+        icon: 'money',
+      },
+    },
+    {
+      path: 'setting',
+      component: () => import('@/views/salarys/setting'),
+      name: 'salarysSetting',
+      hidden: true,
+      meta: {
+        title: '设置',
+      },
+    },
+    {
+      path: 'details/:yearMonth/:id',
+      component: () => import('@/views/salarys/detail'),
+      name: 'salarysDetails',
+      hidden: true,
+      meta: {
+        title: '详情',
+      },
+    },
+    {
+      path: 'historicalArchiving',
+      component: () => import('@/views/salarys/historical'),
+      name: 'salarysHistorical',
+      hidden: true,
+      meta: {
+        title: '历史归档',
+      },
+    },
+    {
+      path: 'monthStatement',
+      component: () => import('@/views/salarys/month'),
+      name: 'salarysMonthStatement',
+      hidden: true,
+      meta: {
+        title: '月报表',
+      },
+    },
+  ],
 }
+export default salaryRouter

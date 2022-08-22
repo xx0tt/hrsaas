@@ -4,427 +4,425 @@ export default {
   hireType: [
     {
       id: 1,
-      value: '正式'
+      value: '正式',
     },
     {
       id: 2,
-      value: '非正式'
-    }
+      value: '非正式',
+    },
   ],
   // 管理形式
   subjection: [
     {
       id: '1',
-      value: '总部'
+      value: '总部',
     },
     {
       id: '2',
-      value: '分城市'
-    }
+      value: '分城市',
+    },
   ],
   // 在职状态
   workingState: [
     {
       id: '1',
-      value: '在职'
+      value: '在职',
     },
     {
       id: '2',
-      value: '离职'
-    }
+      value: '离职',
+    },
   ],
   // 离职类型
   leaveType: [
     {
       id: '1',
-      value: '主动离职'
+      value: '主动离职',
     },
     {
       id: '2',
-      value: '被动离职'
+      value: '被动离职',
     },
     {
       id: '3',
-      value: '退休'
-    }
+      value: '退休',
+    },
   ],
   // 减员月
   attritionMonth: [
     {
       id: '1',
-      value: '离职日本月'
+      value: '离职日本月',
     },
     {
       id: '2',
-      value: '离职日次月'
-    }
+      value: '离职日次月',
+    },
   ],
   // 聘用形式
   informaltype: [
     {
       id: '2',
-      value: '实习'
+      value: '实习',
     },
     {
       id: '3',
-      value: '劳务'
+      value: '劳务',
     },
     {
       id: '4',
-      value: '顾问'
+      value: '顾问',
     },
     {
       id: '5',
-      value: '返聘'
+      value: '返聘',
     },
     {
       id: '6',
-      value: '外包'
-    }
+      value: '外包',
+    },
   ],
   // 最高学历
   highestDegree: [
     {
       id: '1',
-      value: '初中'
+      value: '初中',
     },
     {
       id: '2',
-      value: '高中'
+      value: '高中',
     },
     {
       id: '3',
-      value: '中专'
+      value: '中专',
     },
     {
       id: '4',
-      value: '大专'
+      value: '大专',
     },
     {
       id: '5',
-      value: '本科'
+      value: '本科',
     },
     {
       id: '6',
-      value: '硕士'
+      value: '硕士',
     },
     {
       id: '7',
-      value: '博士'
+      value: '博士',
     },
     {
       id: '8',
-      value: '其他'
-    }
+      value: '其他',
+    },
   ],
   // 国家/地区
   isOverseas: [
     {
       id: '1',
-      value: '中国大陆'
+      value: '中国大陆',
     },
     {
       id: '2',
-      value: '港澳台国外'
-    }
+      value: '港澳台国外',
+    },
   ],
   // 性别
   gender: [
     {
       id: '1',
-      value: '男'
+      value: '男',
     },
     {
       id: '2',
-      value: '女'
-    }
+      value: '女',
+    },
   ],
   // 婚姻状况
   maritaStatus: [
     {
       id: '1',
-      value: '未婚'
+      value: '未婚',
     },
     {
       id: '2',
-      value: '已婚'
+      value: '已婚',
     },
     {
       id: '3',
-      value: '离异'
-    }
+      value: '离异',
+    },
   ],
   // 生肖
   animalSymbol: [
     {
       id: '1',
-      value: '鼠'
+      value: '鼠',
     },
     {
       id: '2',
-      value: '牛'
+      value: '牛',
     },
     {
       id: '3',
-      value: '虎'
+      value: '虎',
     },
     {
       id: '4',
-      value: '兔'
+      value: '兔',
     },
     {
       id: '5',
-      value: '龙'
+      value: '龙',
     },
     {
       id: '6',
-      value: '蛇'
+      value: '蛇',
     },
     {
       id: '7',
-      value: '马'
+      value: '马',
     },
     {
       id: '8',
-      value: '羊'
+      value: '羊',
     },
     {
       id: '9',
-      value: '猴'
+      value: '猴',
     },
     {
       id: '10',
-      value: '鸡'
+      value: '鸡',
     },
     {
       id: '11',
-      value: '狗'
+      value: '狗',
     },
     {
       id: '12',
-      value: '猪'
-    }
+      value: '猪',
+    },
   ],
   // 星座
   constellation: [
     {
       code: 1,
-      value: '水瓶座'
+      value: '水瓶座',
     },
     {
       code: 2,
-      value: '双鱼座'
+      value: '双鱼座',
     },
     {
       code: 3,
-      value: '白羊座'
+      value: '白羊座',
     },
     {
       code: 4,
-      value: '金牛座'
+      value: '金牛座',
     },
     {
       code: 5,
-      value: '双子座'
+      value: '双子座',
     },
     {
       code: 6,
-      value: '巨蟹座'
+      value: '巨蟹座',
     },
     {
       code: 7,
-      value: '狮子座'
+      value: '狮子座',
     },
     {
       code: 8,
-      value: '处女座'
+      value: '处女座',
     },
     {
       code: 9,
-      value: '天秤座'
+      value: '天秤座',
     },
     {
       code: 10,
-      value: '天蝎座'
+      value: '天蝎座',
     },
     {
       code: 11,
-      value: '射手座'
+      value: '射手座',
     },
     {
       code: 12,
-      value: '摩羯座'
-    }
+      value: '摩羯座',
+    },
   ],
   // 血型
   bloodType: [
     {
       id: '1',
-      value: 'A型'
+      value: 'A型',
     },
     {
       id: '2',
-      value: 'B型'
+      value: 'B型',
     },
     {
       id: '3',
-      value: 'O型'
+      value: 'O型',
     },
     {
       id: '4',
-      value: 'AB型'
-    }
+      value: 'AB型',
+    },
   ],
   // 学历
   educationType: [
     {
       id: '1',
-      value: '统招'
+      value: '统招',
     },
     {
       id: '2',
-      value: '自考'
+      value: '自考',
     },
     {
       id: '3',
-      value: '成考'
-    }
+      value: '成考',
+    },
   ],
   // 转正
   positiveType: [
     {
       id: '1',
-      value: '已转正'
+      value: '已转正',
     },
     {
       id: '2',
-      value: '未转正'
-    }
+      value: '未转正',
+    },
   ],
   // 合同期限
   contractPeriod: [
     {
       id: '1',
-      value: '6月'
+      value: '6月',
     },
     {
       id: '2',
-      value: '12月'
+      value: '12月',
     },
     {
       id: '3',
-      value: '24月'
+      value: '24月',
     },
     {
       id: '4',
-      value: '36月'
+      value: '36月',
     },
     {
       id: '5',
-      value: '其他'
-    }
+      value: '其他',
+    },
   ],
   // 签约次数
   renewalCount: [
     {
       id: 1,
-      value: '0次'
+      value: '0次',
     },
     {
       id: 2,
-      value: '1次'
+      value: '1次',
     },
     {
       id: 3,
-      value: '2次'
+      value: '2次',
     },
     {
       id: 4,
-      value: '3次'
+      value: '3次',
     },
     {
       id: 5,
-      value: '4次或以上'
-    }
+      value: '4次或以上',
+    },
   ],
   // 简历来源
   resumeSource: [
     {
       id: '1',
-      value: '智联招聘'
+      value: '智联招聘',
     },
     {
       id: '2',
-      value: '拉勾网'
+      value: '拉勾网',
     },
     {
       id: '3',
-      value: '前程无忧'
+      value: '前程无忧',
     },
     {
       id: '4',
-      value: '猎聘网'
+      value: '猎聘网',
     },
     {
       id: '5',
-      value: '校园宣讲'
+      value: '校园宣讲',
     },
     {
       id: '6',
-      value: '猎头'
+      value: '猎头',
     },
     {
       id: '7',
-      value: '内部推荐'
-    }
+      value: '内部推荐',
+    },
   ],
   // 社招/校招
   hireSourceType: [
     {
       id: '1',
-      value: '社招'
+      value: '社招',
     },
     {
       id: '2',
-      value: '校招'
-    }
+      value: '校招',
+    },
   ],
   // 新加
   // 部门
   departments: [
     {
       id: '1',
-      value: '总裁办'
+      value: '总裁办',
     },
     {
       id: '2',
-      value: '研究院'
-    }
+      value: '研究院',
+    },
   ],
   // 职位状态
   stausInfos: [
     {
       id: '1',
-      value: '在职'
+      value: '在职',
     },
     {
       id: '2',
-      value: '入职'
+      value: '入职',
     },
     {
       id: '3',
-      value: '离职'
-    }
+      value: '离职',
+    },
   ],
-  // 导入路径映射表
-  mapKeyPath: {
+  importMapKeyPath: {
     入职日期: 'timeOfEntry',
     姓名: 'username',
     工号: 'workNumber',
     手机号: 'mobile',
-    转正日期: 'correctionTime'
+    转正日期: 'correctionTime',
   },
-  // 导出路径映射表
   exportExcelMapPath: {
     手机号: 'mobile',
     姓名: 'username',
@@ -432,6 +430,6 @@ export default {
     聘用形式: 'formOfEmployment',
     转正日期: 'correctionTime',
     工号: 'workNumber',
-    部门: 'departmentName'
-  }
+    部门: 'departmentName',
+  },
 }
