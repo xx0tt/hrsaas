@@ -25,9 +25,10 @@
         <!-- 工作日历 -->
         <el-card class="box-card">
           <div slot="header" class="header">
-            <span>工作日历</span>
+            <span>{{ $t('dashboard.calendar') }}</span>
           </div>
           <!-- 放置日历组件 -->
+          <Calendar />
         </el-card>
         <!-- 公告 -->
         <el-card class="box-card">
@@ -80,7 +81,7 @@
       <el-col :span="11">
         <el-card class="box-card">
           <div class="header headTit">
-            <span>流程申请</span>
+            <span>{{ $t('dashboard.progress') }}</span>
           </div>
           <div class="sideNav">
             <el-button class="sideBtn">加班离职</el-button>
@@ -96,6 +97,7 @@
             <span>绩效指数</span>
           </div>
           <!-- 放置雷达图 -->
+          <radar />
         </el-card>
         <!-- 帮助连接 -->
         <el-card class="box-card">
@@ -132,12 +134,13 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
+import radar from './components/radar.vue'
 export default {
   name: 'Dashboard',
   computed: {
     ...mapGetters(['name'])
-  }
+  },
+  components: { radar }
 }
 </script>
 
