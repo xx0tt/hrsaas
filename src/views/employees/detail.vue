@@ -45,25 +45,25 @@ export default {
   data() {
     return {
       formData: {},
-      activeName: Cookies.get('employeeDetailTab') || 'account',
+      activeName: Cookies.get('employeeDetailTab') || 'account'
     }
   },
   // 路由开启props,此时可以接收路由参数
   props: {
     id: {
       required: true,
-      type: String,
-    },
+      type: String
+    }
   },
 
   components: {
     UserInfo,
-    JobInfo,
+    JobInfo
   },
 
   created() {
     this.loadUserDetail()
-    // console.log(this.$attrs)
+    console.log(this)
   },
 
   methods: {
@@ -77,8 +77,8 @@ export default {
     },
     handleTabClick() {
       Cookies.set('employeeDetailTab', this.activeName)
-    },
-  },
+    }
+  }
 }
 </script>
 

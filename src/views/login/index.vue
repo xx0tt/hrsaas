@@ -54,7 +54,7 @@ export default {
       // 1. 定义数据
       loginForm: {
         mobile: '13800000002',
-        password: '123456',
+        password: '123456'
       },
       loginFormRules: {
         // 规则名和数据名保持一致
@@ -63,20 +63,20 @@ export default {
           {
             pattern: /^(?:(?:\+|00)86)?1[3-9]\d{9}$/,
             message: '手机号码格式不正确',
-            trigger: 'blur',
-          },
+            trigger: 'blur'
+          }
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
+          { required: true, message: '请输入密码', trigger: 'blur' }
           // {
           //   pattern:
           //     /^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\W_!@#$%^&*`~()-+=]+$)(?![a-z0-9]+$)(?![a-z\W_!@#$%^&*`~()-+=]+$)(?![0-9\W_!@#$%^&*`~()-+=]+$)[a-zA-Z0-9\W_!@#$%^&*`~()-+=]/,
           //   message: '密码请包含数字字母特殊字符,并且不能少于6位',
           //   trigger: 'blur',
           // },
-        ],
+        ]
       },
-      isLogin: false,
+      isLogin: false
     }
   },
   methods: {
@@ -91,8 +91,11 @@ export default {
       } finally {
         this.isLogin = false
       }
-    },
+    }
   },
+  created() {
+    console.log('hello login')
+  }
 }
 </script>
 

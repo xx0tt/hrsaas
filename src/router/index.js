@@ -20,13 +20,13 @@ export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
-    hidden: true,
+    hidden: true
   },
 
   {
     path: '/404',
     component: () => import('@/views/404'),
-    hidden: true,
+    hidden: true
   },
 
   {
@@ -38,10 +38,10 @@ export const constantRoutes = [
         path: 'dashboard',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index'),
-        meta: { title: '首页', icon: 'dashboard' },
-      },
-    ],
-  },
+        meta: { title: '首页', icon: 'dashboard' }
+      }
+    ]
+  }
 ]
 
 // 动态路由: 准备好项目所有动态路由, 基于后端返回的用户权限对动态路由进行筛选
@@ -54,14 +54,14 @@ export const asyncRoutes = [
   salarys,
   setting,
   social,
-  importModule,
+  importModule
 ]
 
 const createRouter = () =>
   new Router({
     // mode: 'history', // require service support
     scrollBehavior: () => ({ y: 0 }),
-    routes: [...constantRoutes], // 路由规则
+    routes: [...constantRoutes] // 路由规则
   })
 // vueRouter实例
 const router = createRouter()
